@@ -1,0 +1,15 @@
+sudo apt-get -y install lua5.1 liblua5.1-socket2
+sudo cp dcstat_.lua /usr/share/munin/plugins/dcstat_.lua
+sudo chmod +x /usr/share/munin/plugins/dcstat_.lua
+
+echo '[dcstat_*]
+	env.HUB_ADDR dc.hub21.ru 
+	env.HUB_PORT 411
+	env.PINGER_NAME munindcstat
+	env.PINGER_PASSWD 123
+	env.PINGER_SHARESIZE 10GB' |sudo tee -a /etc/munin/plugin-conf.d/munin-node
+
+
+sudo ln -s /usr/share/munin/plugins/dcstat_.lua /etc/munin/plugins/dcstat_users
+sudo ln -s /usr/share/munin/plugins/dcstat_.lua /etc/munin/plugins/dcstat_share
+sudo /etc/init.d/munin-node restart
